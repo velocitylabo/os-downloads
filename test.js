@@ -1,11 +1,11 @@
 const assert = require("assert");
 const fs = require("fs");
-const d = require("./");
+const downloads = require("./");
 
-describe("os-downloads", function () {
-    describe("downlaods", function () {
+describe("os-downloads", () => {
+    describe("downloads", () => {
         it("directory exists", () => {
-            assert.equal(true, fs.existsSync(d()));
+            assert.ok(fs.existsSync(downloads()));
         });
     });
 });
