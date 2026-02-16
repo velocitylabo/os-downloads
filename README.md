@@ -5,6 +5,7 @@ Look up downloads directory specific to different operating systems.
 
 - win32
 - darwin
+- linux
 
 # Install
 
