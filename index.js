@@ -8,7 +8,7 @@ function getXDGDownloadDir(configPath) {
         const content = fs.readFileSync(configPath, "utf8");
         const match = content.match(/^XDG_DOWNLOAD_DIR="(.+)"$/m);
         if (match) {
-            return match[1].replace("$HOME", os.homedir());
+            return path.normalize(match[1].replace("$HOME", os.homedir()));
         }
     } catch (e) {
         // file not found or unreadable, fall through to default
