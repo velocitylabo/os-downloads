@@ -14,7 +14,7 @@ const {
     videos,
 } = require("./");
 
-describe("os-downloads", () => {
+describe("os-user-dirs", () => {
     describe("downloads (default export / backward compatibility)", () => {
         it("returns a path ending with Downloads", () => {
             assert.ok(path.basename(downloads()).match(/downloads/i));
@@ -66,7 +66,7 @@ describe("os-downloads", () => {
     });
 
     describe("getXDGUserDir", () => {
-        const tmpDir = path.join(os.tmpdir(), "os-downloads-test");
+        const tmpDir = path.join(os.tmpdir(), "os-user-dirs-test");
 
         beforeEach(() => {
             fs.mkdirSync(tmpDir, { recursive: true });
@@ -142,7 +142,7 @@ describe("os-downloads", () => {
     });
 
     describe("getXDGDownloadDir (backward compatibility)", () => {
-        const tmpDir = path.join(os.tmpdir(), "os-downloads-test");
+        const tmpDir = path.join(os.tmpdir(), "os-user-dirs-test");
 
         beforeEach(() => {
             fs.mkdirSync(tmpDir, { recursive: true });

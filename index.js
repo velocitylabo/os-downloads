@@ -75,7 +75,7 @@ function music() { return resolve("music"); }
 function pictures() { return resolve("pictures"); }
 function videos() { return resolve("videos"); }
 
-// Backward compatibility: require("os-downloads")() returns Downloads path
+// Backward compatibility: require("os-user-dirs")() returns Downloads path
 module.exports = downloads;
 module.exports.getPath = getPath;
 module.exports.desktop = desktop;

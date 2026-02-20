@@ -1,6 +1,6 @@
 {
-  "name": "os-downloads",
-  "version": "1.0.0",
+  "name": "os-user-dirs",
+  "version": "2.0.0",
   "description": "Get OS-specific user directories (Downloads, Desktop, Documents, Music, Pictures, Videos) with zero dependencies.",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/velocitylabo/os-downloads.git"
+    "url": "git+https://github.com/velocitylabo/os-user-dirs.git"
   },
   "keywords": [
     "os",
@@ -26,9 +26,9 @@
   "author": "piroz",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/velocitylabo/os-downloads/issues"
+    "url": "https://github.com/velocitylabo/os-user-dirs/issues"
   },
-  "homepage": "https://github.com/velocitylabo/os-downloads#readme",
+  "homepage": "https://github.com/velocitylabo/os-user-dirs#readme",
   "devDependencies": {
     "mocha": "^11.7.5"
   }
