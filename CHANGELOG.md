@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.3.0](https://github.com/velocitylabo/os-user-dirs/compare/v2.2.0...v2.3.0) (2026-02-28)
+
+
+### Features
+
+* add templates and publicshare user directories ([e44203f](https://github.com/velocitylabo/os-user-dirs/commit/e44203fbef868f500fac0401984f3cf7fe6d7ab1))
+* add XDG base directories (configDir, dataDir, cacheDir, runtimeDir) ([c1dfc72](https://github.com/velocitylabo/os-user-dirs/commit/c1dfc72ec57ecf3841af062da8877245507f9a58))
+* add XDG user dirs (templates, publicshare) and base directories ([89674f6](https://github.com/velocitylabo/os-user-dirs/commit/89674f6bd15f5a7e1a7cf9fc1653f230ad8eefae))
+
+
+### Bug Fixes
+
+* **ci:** match release-please tag format in publish workflow ([8f9a7bd](https://github.com/velocitylabo/os-user-dirs/commit/8f9a7bd4897d3993df671c74d22fdc8c11d7a5dd))
+* **ci:** match release-please tag format in publish workflow ([3ee31d4](https://github.com/velocitylabo/os-user-dirs/commit/3ee31d45acf73aec671335414e1d26844950a1c2))
+
 ## [2.2.0](https://github.com/velocitylabo/os-user-dirs/compare/os-user-dirs-v2.1.0...os-user-dirs-v2.2.0) (2026-02-28)
 
 

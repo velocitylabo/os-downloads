@@ -1,6 +1,6 @@
 {
   "name": "os-user-dirs",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Get OS-specific user directories and XDG base directories (config, data, cache, runtime) with zero dependencies.",
   "main": "index.js",
   "types": "index.d.ts",
