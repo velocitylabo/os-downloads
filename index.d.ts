@@ -27,6 +27,27 @@ export function publicshare(): string;
 /** Returns the path to the specified user directory. */
 export function getPath(name: DirName): string;
 
+type BaseDirName = "config" | "data" | "cache" | "runtime";
+
+/** Returns the path to the XDG config directory. */
+export function configDir(): string;
+
+/** Returns the path to the XDG data directory. */
+export function dataDir(): string;
+
+/** Returns the path to the XDG cache directory. */
+export function cacheDir(): string;
+
+/** Returns the path to the XDG runtime directory, or null if unavailable. */
+export function runtimeDir(): string | null;
+
+/** Returns the path to the specified base directory. */
+export function getBasePath(name: "config"): string;
+export function getBasePath(name: "data"): string;
+export function getBasePath(name: "cache"): string;
+export function getBasePath(name: "runtime"): string | null;
+export function getBasePath(name: BaseDirName): string | null;
+
 /**
  * Reads an XDG user-dirs.dirs config and returns the directory for the given key.
  * @param key - XDG key (e.g. "XDG_DOWNLOAD_DIR")
@@ -50,6 +71,11 @@ declare const osUserDirs: typeof downloads & {
     templates: typeof templates;
     publicshare: typeof publicshare;
     getPath: typeof getPath;
+    configDir: typeof configDir;
+    dataDir: typeof dataDir;
+    cacheDir: typeof cacheDir;
+    runtimeDir: typeof runtimeDir;
+    getBasePath: typeof getBasePath;
     getXDGUserDir: typeof getXDGUserDir;
     getXDGDownloadDir: typeof getXDGDownloadDir;
 };

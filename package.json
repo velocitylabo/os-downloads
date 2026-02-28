@@ -1,7 +1,7 @@
 {
   "name": "os-user-dirs",
   "version": "2.2.0",
-  "description": "Get OS-specific user directories (Downloads, Desktop, Documents, Music, Pictures, Videos) with zero dependencies.",
+  "description": "Get OS-specific user directories and XDG base directories (config, data, cache, runtime) with zero dependencies.",
   "main": "index.js",
   "types": "index.d.ts",
   "exports": {
@@ -32,6 +32,11 @@
     "music",
     "pictures",
     "videos",
+    "templates",
+    "public",
+    "config",
+    "data",
+    "cache",
     "xdg",
     "user-dirs",
     "platform-folders"

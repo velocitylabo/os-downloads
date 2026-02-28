@@ -14,6 +14,11 @@ const {
     videos,
     templates,
     publicshare,
+    configDir,
+    dataDir,
+    cacheDir,
+    runtimeDir,
+    getBasePath,
 } = require("./");
 
 describe("os-user-dirs", () => {
@@ -146,6 +151,122 @@ describe("os-user-dirs", () => {
             const configPath = path.join(tmpDir, "nonexistent");
             const result = getXDGUserDir("XDG_DOWNLOAD_DIR", configPath);
             assert.strictEqual(result, null);
+        });
+    });
+
+    describe("base directories", () => {
+        const envKeys = ["XDG_CONFIG_HOME", "XDG_DATA_HOME", "XDG_CACHE_HOME", "XDG_RUNTIME_DIR"];
+        const savedEnv = {};
+
+        beforeEach(() => {
+            envKeys.forEach((key) => {
+                savedEnv[key] = process.env[key];
+            });
+        });
+
+        afterEach(() => {
+            envKeys.forEach((key) => {
+                if (savedEnv[key] === undefined) {
+                    delete process.env[key];
+                } else {
+                    process.env[key] = savedEnv[key];
+                }
+            });
+        });
+
+        describe("configDir", () => {
+            it("returns an absolute path", () => {
+                assert.ok(path.isAbsolute(configDir()));
+            });
+
+            if (process.platform === "linux") {
+                it("respects XDG_CONFIG_HOME", () => {
+                    process.env.XDG_CONFIG_HOME = "/tmp/custom-config";
+                    assert.strictEqual(configDir(), "/tmp/custom-config");
+                });
+
+                it("defaults to ~/.config when env is unset", () => {
+                    delete process.env.XDG_CONFIG_HOME;
+                    assert.strictEqual(configDir(), path.join(os.homedir(), ".config"));
+                });
+
+                it("ignores empty XDG_CONFIG_HOME", () => {
+                    process.env.XDG_CONFIG_HOME = "";
+                    assert.strictEqual(configDir(), path.join(os.homedir(), ".config"));
+                });
+            }
+        });
+
+        describe("dataDir", () => {
+            it("returns an absolute path", () => {
+                assert.ok(path.isAbsolute(dataDir()));
+            });
+
+            if (process.platform === "linux") {
+                it("respects XDG_DATA_HOME", () => {
+                    process.env.XDG_DATA_HOME = "/tmp/custom-data";
+                    assert.strictEqual(dataDir(), "/tmp/custom-data");
+                });
+
+                it("defaults to ~/.local/share when env is unset", () => {
+                    delete process.env.XDG_DATA_HOME;
+                    assert.strictEqual(dataDir(), path.join(os.homedir(), ".local/share"));
+                });
+            }
+        });
+
+        describe("cacheDir", () => {
+            it("returns an absolute path", () => {
+                assert.ok(path.isAbsolute(cacheDir()));
+            });
+
+            if (process.platform === "linux") {
+                it("respects XDG_CACHE_HOME", () => {
+                    process.env.XDG_CACHE_HOME = "/tmp/custom-cache";
+                    assert.strictEqual(cacheDir(), "/tmp/custom-cache");
+                });
+
+                it("defaults to ~/.cache when env is unset", () => {
+                    delete process.env.XDG_CACHE_HOME;
+                    assert.strictEqual(cacheDir(), path.join(os.homedir(), ".cache"));
+                });
+            }
+        });
+
+        describe("runtimeDir", () => {
+            if (process.platform === "linux") {
+                it("returns null when XDG_RUNTIME_DIR is unset", () => {
+                    delete process.env.XDG_RUNTIME_DIR;
+                    assert.strictEqual(runtimeDir(), null);
+                });
+
+                it("respects XDG_RUNTIME_DIR", () => {
+                    process.env.XDG_RUNTIME_DIR = "/run/user/1000";
+                    assert.strictEqual(runtimeDir(), "/run/user/1000");
+                });
+
+                it("ignores empty XDG_RUNTIME_DIR", () => {
+                    process.env.XDG_RUNTIME_DIR = "";
+                    assert.strictEqual(runtimeDir(), null);
+                });
+            } else {
+                it("returns null on non-Linux platforms", () => {
+                    assert.strictEqual(runtimeDir(), null);
+                });
+            }
+        });
+
+        describe("getBasePath", () => {
+            it("returns same result as named functions", () => {
+                assert.strictEqual(getBasePath("config"), configDir());
+                assert.strictEqual(getBasePath("data"), dataDir());
+                assert.strictEqual(getBasePath("cache"), cacheDir());
+                assert.strictEqual(getBasePath("runtime"), runtimeDir());
+            });
+
+            it("throws for unknown base directory names", () => {
+                assert.throws(() => getBasePath("unknown"), /Unknown base directory/);
+            });
         });
     });
 

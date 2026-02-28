@@ -1,6 +1,6 @@
 # os-user-dirs [![CI](https://github.com/velocitylabo/os-user-dirs/actions/workflows/ci.yml/badge.svg)](https://github.com/velocitylabo/os-user-dirs/actions/workflows/ci.yml)
 
-Get OS-specific user directories (Downloads, Desktop, Documents, Music, Pictures, Videos) with zero dependencies.
+Get OS-specific user directories (Downloads, Desktop, Documents, etc.) and XDG base directories (config, data, cache, runtime) with zero dependencies.
 
 > **Note:** This package was previously published as [`os-downloads`](https://www.npmjs.com/package/os-downloads). The old package is deprecated — please use `os-user-dirs` instead.
 
@@ -21,7 +21,7 @@ $ npm install os-user-dirs
 ### ESM (recommended)
 
 ```javascript
-import { downloads, desktop, documents, music, pictures, videos, getPath } from "os-user-dirs";
+import { downloads, desktop, documents, music, pictures, videos, templates, publicshare, getPath } from "os-user-dirs";
 
 downloads();
 //=> '/home/user/Downloads'
@@ -29,17 +29,41 @@ downloads();
 desktop();
 //=> '/home/user/Desktop'
 
-documents();
-//=> '/home/user/Documents'
+templates();
+//=> '/home/user/Templates'
+
+publicshare();
+//=> '/home/user/Public'
 
 getPath("music");
 //=> '/home/user/Music'
 ```
 
+#### Base directories
+
+```javascript
+import { configDir, dataDir, cacheDir, runtimeDir, getBasePath } from "os-user-dirs";
+
+configDir();
+//=> '/home/user/.config'
+
+dataDir();
+//=> '/home/user/.local/share'
+
+cacheDir();
+//=> '/home/user/.cache'
+
+runtimeDir();
+//=> '/run/user/1000' (or null)
+
+getBasePath("config");
+//=> '/home/user/.config'
+```
+
 ### CommonJS
 
 ```javascript
-const { downloads, desktop, documents, music, pictures, videos, getPath } = require("os-user-dirs");
+const { downloads, desktop, documents, music, pictures, videos, templates, publicshare, getPath } = require("os-user-dirs");
 
 downloads();
 //=> '/home/user/Downloads'
@@ -65,9 +89,10 @@ Full type definitions are included. `getPath()` accepts a union type for auto-co
 ```typescript
 import { getPath } from "os-user-dirs";
 
-getPath("downloads"); // OK
-getPath("desktop");   // OK
-getPath("unknown");   // Type error
+getPath("downloads");  // OK
+getPath("desktop");    // OK
+getPath("templates");  // OK
+getPath("unknown");    // Type error
 ```
 
 ## API
@@ -90,8 +115,31 @@ Returns the path to the Pictures directory.
 ### `videos()`
 Returns the path to the Videos directory (Movies on macOS).
 
+### `templates()`
+Returns the path to the Templates directory.
+
+### `publicshare()`
+Returns the path to the Public Share directory.
+
 ### `getPath(name)`
-Returns the path to the specified directory. Valid names: `desktop`, `downloads`, `documents`, `music`, `pictures`, `videos`.
+Returns the path to the specified user directory. Valid names: `desktop`, `downloads`, `documents`, `music`, `pictures`, `videos`, `templates`, `publicshare`.
+
+### Base Directories
+
+#### `configDir()`
+Returns the path to the config directory (`~/.config` on Linux, `~/Library/Application Support` on macOS, `%APPDATA%` on Windows).
+
+#### `dataDir()`
+Returns the path to the data directory (`~/.local/share` on Linux, `~/Library/Application Support` on macOS, `%LOCALAPPDATA%` on Windows).
+
+#### `cacheDir()`
+Returns the path to the cache directory (`~/.cache` on Linux, `~/Library/Caches` on macOS, `%LOCALAPPDATA%` on Windows).
+
+#### `runtimeDir()`
+Returns the path to the runtime directory (`$XDG_RUNTIME_DIR` on Linux), or `null` if unavailable.
+
+#### `getBasePath(name)`
+Returns the path to the specified base directory. Valid names: `config`, `data`, `cache`, `runtime`.
 
 ## License
 
