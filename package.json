@@ -1,6 +1,6 @@
 {
   "name": "os-user-dirs",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Get OS-specific user directories (Downloads, Desktop, Documents, Music, Pictures, Videos) with zero dependencies.",
   "main": "index.js",
   "types": "index.d.ts",
