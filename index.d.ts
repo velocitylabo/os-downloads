@@ -27,7 +27,7 @@ export function publicshare(): string;
 /** Returns the path to the specified user directory. */
 export function getPath(name: DirName): string;
 
-type BaseDirName = "config" | "data" | "cache" | "runtime";
+type BaseDirName = "config" | "data" | "cache" | "state" | "log" | "runtime";
 
 /** Returns the path to the XDG config directory. */
 export function configDir(): string;
@@ -38,6 +38,12 @@ export function dataDir(): string;
 /** Returns the path to the XDG cache directory. */
 export function cacheDir(): string;
 
+/** Returns the path to the XDG state directory. */
+export function stateDir(): string;
+
+/** Returns the path to the log directory. */
+export function logDir(): string;
+
 /** Returns the path to the XDG runtime directory, or null if unavailable. */
 export function runtimeDir(): string | null;
 
@@ -45,8 +51,32 @@ export function runtimeDir(): string | null;
 export function getBasePath(name: "config"): string;
 export function getBasePath(name: "data"): string;
 export function getBasePath(name: "cache"): string;
+export function getBasePath(name: "state"): string;
+export function getBasePath(name: "log"): string;
 export function getBasePath(name: "runtime"): string | null;
 export function getBasePath(name: BaseDirName): string | null;
+
+interface ProjectDirsOptions {
+    /** Suffix appended to the app name (default: ""). */
+    suffix?: string;
+}
+
+interface ProjectDirsResult {
+    config: string;
+    data: string;
+    cache: string;
+    state: string;
+    log: string;
+    temp: string;
+    runtime: string | null;
+}
+
+/**
+ * Returns application-scoped directories for the given app name.
+ * @param name - Application name used to derive directory paths
+ * @param options - Optional settings (e.g. suffix)
+ */
+export function projectDirs(name: string, options?: ProjectDirsOptions): ProjectDirsResult;
 
 /**
  * Reads an XDG user-dirs.dirs config and returns the directory for the given key.
@@ -74,8 +104,11 @@ declare const osUserDirs: typeof downloads & {
     configDir: typeof configDir;
     dataDir: typeof dataDir;
     cacheDir: typeof cacheDir;
+    stateDir: typeof stateDir;
+    logDir: typeof logDir;
     runtimeDir: typeof runtimeDir;
     getBasePath: typeof getBasePath;
+    projectDirs: typeof projectDirs;
     getXDGUserDir: typeof getXDGUserDir;
     getXDGDownloadDir: typeof getXDGDownloadDir;
 };

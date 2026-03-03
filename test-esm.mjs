@@ -14,8 +14,11 @@ import osUserDirs, {
     configDir,
     dataDir,
     cacheDir,
+    stateDir,
+    logDir,
     runtimeDir,
     getBasePath,
+    projectDirs,
     getXDGUserDir,
     getXDGDownloadDir,
 } from './index.mjs';
@@ -69,7 +72,7 @@ for (const [name, fn] of Object.entries(namedExports)) {
 
 // Base directory exports
 console.log('\nbase directory exports:');
-const baseFns = { configDir, dataDir, cacheDir };
+const baseFns = { configDir, dataDir, cacheDir, stateDir, logDir };
 for (const [name, fn] of Object.entries(baseFns)) {
     test(`${name}() returns absolute path`, () => {
         const result = fn();
@@ -92,8 +95,41 @@ test('getBasePath("data") === dataDir()', () => {
 test('getBasePath("cache") === cacheDir()', () => {
     assert.equal(getBasePath('cache'), cacheDir());
 });
+test('getBasePath("state") === stateDir()', () => {
+    assert.equal(getBasePath('state'), stateDir());
+});
+test('getBasePath("log") === logDir()', () => {
+    assert.equal(getBasePath('log'), logDir());
+});
 test('getBasePath("runtime") === runtimeDir()', () => {
     assert.equal(getBasePath('runtime'), runtimeDir());
+});
+
+// projectDirs
+console.log('\nprojectDirs:');
+test('projectDirs is a function', () => {
+    assert.equal(typeof projectDirs, 'function');
+});
+test('projectDirs returns object with all keys', () => {
+    const dirs = projectDirs('test-app');
+    assert.ok(dirs.config);
+    assert.ok(dirs.data);
+    assert.ok(dirs.cache);
+    assert.ok(dirs.state);
+    assert.ok(dirs.log);
+    assert.ok(dirs.temp);
+});
+test('projectDirs paths contain app name', () => {
+    const dirs = projectDirs('esm-test-app');
+    for (const [key, val] of Object.entries(dirs)) {
+        if (val !== null) {
+            assert.ok(val.includes('esm-test-app'), `${key} should contain app name`);
+        }
+    }
+});
+test('projectDirs suffix option works', () => {
+    const dirs = projectDirs('my-app', { suffix: '-nodejs' });
+    assert.ok(dirs.config.includes('my-app-nodejs'));
 });
 
 // Utility exports exist
