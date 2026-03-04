@@ -1,6 +1,6 @@
 # os-user-dirs [![CI](https://github.com/velocitylabo/os-user-dirs/actions/workflows/ci.yml/badge.svg)](https://github.com/velocitylabo/os-user-dirs/actions/workflows/ci.yml)
 
-Get OS-specific user directories (Downloads, Desktop, Documents, etc.) and XDG base directories (config, data, cache, runtime) with zero dependencies.
+Get OS-specific user directories (Downloads, Desktop, Documents, etc.) and XDG base directories (config, data, cache, state, log, runtime) with zero dependencies. Also provides `projectDirs()` for app-scoped directories (similar to `env-paths`).
 
 > **Note:** This package was previously published as [`os-downloads`](https://www.npmjs.com/package/os-downloads). The old package is deprecated — please use `os-user-dirs` instead.
 
@@ -42,7 +42,7 @@ getPath("music");
 #### Base directories
 
 ```javascript
-import { configDir, dataDir, cacheDir, runtimeDir, getBasePath } from "os-user-dirs";
+import { configDir, dataDir, cacheDir, stateDir, logDir, runtimeDir, getBasePath } from "os-user-dirs";
 
 configDir();
 //=> '/home/user/.config'
@@ -53,11 +53,36 @@ dataDir();
 cacheDir();
 //=> '/home/user/.cache'
 
+stateDir();
+//=> '/home/user/.local/state'
+
+logDir();
+//=> '/home/user/.local/state' (Linux), '~/Library/Logs' (macOS)
+
 runtimeDir();
 //=> '/run/user/1000' (or null)
 
 getBasePath("config");
 //=> '/home/user/.config'
+```
+
+#### Project directories
+
+```javascript
+import { projectDirs } from "os-user-dirs";
+
+const dirs = projectDirs("my-app");
+dirs.config  //=> '/home/user/.config/my-app'
+dirs.data    //=> '/home/user/.local/share/my-app'
+dirs.cache   //=> '/home/user/.cache/my-app'
+dirs.state   //=> '/home/user/.local/state/my-app'
+dirs.log     //=> '/home/user/.local/state/my-app'
+dirs.temp    //=> '/tmp/my-app'
+dirs.runtime //=> '/run/user/1000/my-app' (or null)
+
+// With suffix option
+const dirs2 = projectDirs("my-app", { suffix: "-nodejs" });
+dirs2.config //=> '/home/user/.config/my-app-nodejs'
 ```
 
 ### CommonJS
@@ -135,11 +160,30 @@ Returns the path to the data directory (`~/.local/share` on Linux, `~/Library/Ap
 #### `cacheDir()`
 Returns the path to the cache directory (`~/.cache` on Linux, `~/Library/Caches` on macOS, `%LOCALAPPDATA%` on Windows).
 
+#### `stateDir()`
+Returns the path to the state directory (`~/.local/state` on Linux, `~/Library/Application Support` on macOS, `%LOCALAPPDATA%` on Windows).
+
+#### `logDir()`
+Returns the path to the log directory (`~/.local/state` on Linux, `~/Library/Logs` on macOS, `%LOCALAPPDATA%` on Windows).
+
 #### `runtimeDir()`
 Returns the path to the runtime directory (`$XDG_RUNTIME_DIR` on Linux), or `null` if unavailable.
 
 #### `getBasePath(name)`
-Returns the path to the specified base directory. Valid names: `config`, `data`, `cache`, `runtime`.
+Returns the path to the specified base directory. Valid names: `config`, `data`, `cache`, `state`, `log`, `runtime`.
+
+### Project Directories
+
+#### `projectDirs(name, options?)`
+Returns an object with app-scoped directories for the given application name. This is a zero-dependency alternative to [`env-paths`](https://github.com/sindresorhus/env-paths).
+
+**Parameters:**
+- `name` (string) — Application name
+- `options.suffix` (string, optional) — Suffix appended to the app name (e.g. `"-nodejs"`)
+
+**Returns:** `{ config, data, cache, state, log, temp, runtime }`
+
+On Windows, each directory uses a subdirectory structure (e.g. `%LOCALAPPDATA%/my-app/Config`, `%LOCALAPPDATA%/my-app/Data`).
 
 ## License
 
