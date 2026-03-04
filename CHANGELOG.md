@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.4.0](https://github.com/velocitylabo/os-user-dirs/compare/v2.3.0...v2.4.0) (2026-03-04)
+
+
+### Features
+
+* add stateDir, logDir, and projectDirs ([eb9c81d](https://github.com/velocitylabo/os-user-dirs/commit/eb9c81d7250b0f9364d774043d010284d8c1eb53))
+* add stateDir, logDir, and projectDirs ([b2c3934](https://github.com/velocitylabo/os-user-dirs/commit/b2c3934ac431d5f26e7a516ab834b17ca7722e77))
+
 ## [2.3.0](https://github.com/velocitylabo/os-user-dirs/compare/v2.2.0...v2.3.0) (2026-02-28)
 
 
