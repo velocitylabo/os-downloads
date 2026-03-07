@@ -102,6 +102,24 @@ interface ProjectDirsResult {
  */
 export function projectDirs(name: string, options?: ProjectDirsOptions): ProjectDirsResult;
 
+interface ProjectUserDirsResult {
+    desktop: string;
+    downloads: string;
+    documents: string;
+    music: string;
+    pictures: string;
+    videos: string;
+    templates: string;
+    publicshare: string;
+}
+
+/**
+ * Returns project-scoped user directories for the given app name.
+ * Each value is the user directory path with the app name appended as a subdirectory.
+ * @param name - Application name used to derive directory paths
+ */
+export function projectUserDirs(name: string): ProjectUserDirsResult;
+
 /**
  * Returns the path to the user applications directory.
  * Linux: `$XDG_DATA_HOME/applications` (default `~/.local/share/applications`)
@@ -146,6 +164,7 @@ declare const osUserDirs: typeof downloads & {
     dataDirs: typeof dataDirs;
     projectDirs: typeof projectDirs;
     applicationsDir: typeof applicationsDir;
+    projectUserDirs: typeof projectUserDirs;
     getXDGUserDir: typeof getXDGUserDir;
     getXDGDownloadDir: typeof getXDGDownloadDir;
 };

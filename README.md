@@ -106,6 +106,22 @@ dirs3.config //=> '/home/user/.config/my-org/my-app' (Linux)
 dirs3.config //=> '~/Library/Application Support/My Org/my-app' (macOS)
 ```
 
+#### Project user directories
+
+```javascript
+import { projectUserDirs } from "os-user-dirs";
+
+const dirs = projectUserDirs("my-app");
+dirs.desktop     //=> '/home/user/Desktop/my-app'
+dirs.downloads   //=> '/home/user/Downloads/my-app'
+dirs.documents   //=> '/home/user/Documents/my-app'
+dirs.music       //=> '/home/user/Music/my-app'
+dirs.pictures    //=> '/home/user/Pictures/my-app'
+dirs.videos      //=> '/home/user/Videos/my-app'
+dirs.templates   //=> '/home/user/Templates/my-app'
+dirs.publicshare //=> '/home/user/Public/my-app'
+```
+
 ### CommonJS
 
 ```javascript
@@ -226,6 +242,14 @@ Returns an object with app-scoped directories for the given application name. Th
 **Returns:** `{ config, data, cache, state, log, temp, runtime }`
 
 On Windows, each directory uses a subdirectory structure (e.g. `%LOCALAPPDATA%/my-app/Config`, `%LOCALAPPDATA%/my-app/Data`).
+
+#### `projectUserDirs(name)`
+Returns an object with project-scoped user directories. Each value is the corresponding user directory with the app name appended as a subdirectory.
+
+**Parameters:**
+- `name` (string) — Application name
+
+**Returns:** `{ desktop, downloads, documents, music, pictures, videos, templates, publicshare }`
 
 ## License
 

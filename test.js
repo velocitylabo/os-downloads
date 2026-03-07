@@ -27,6 +27,7 @@ const {
     projectDirs,
     fontsDir,
     applicationsDir,
+    projectUserDirs,
 } = require("./");
 
 describe("os-user-dirs", () => {
@@ -634,6 +635,52 @@ describe("os-user-dirs", () => {
                 assert.strictEqual(dirs.log, "/tmp/custom-state/test-app");
             });
         }
+    });
+
+    describe("projectUserDirs", () => {
+        it("throws when name is not provided", () => {
+            assert.throws(() => projectUserDirs(), /non-empty string/);
+            assert.throws(() => projectUserDirs(""), /non-empty string/);
+        });
+
+        it("returns an object with all 8 user directory keys", () => {
+            const dirs = projectUserDirs("test-app");
+            const expectedKeys = ["desktop", "downloads", "documents", "music", "pictures", "videos", "templates", "publicshare"];
+            assert.deepStrictEqual(Object.keys(dirs).sort(), expectedKeys.sort());
+        });
+
+        it("all paths are absolute", () => {
+            const dirs = projectUserDirs("test-app");
+            for (const [key, val] of Object.entries(dirs)) {
+                assert.ok(path.isAbsolute(val), `${key} should be absolute: ${val}`);
+            }
+        });
+
+        it("all paths contain the app name", () => {
+            const dirs = projectUserDirs("my-cool-app");
+            for (const [key, val] of Object.entries(dirs)) {
+                assert.ok(val.includes("my-cool-app"), `${key} should contain app name: ${val}`);
+            }
+        });
+
+        it("each path ends with app name as last segment", () => {
+            const dirs = projectUserDirs("test-app");
+            for (const [key, val] of Object.entries(dirs)) {
+                assert.strictEqual(path.basename(val), "test-app", `${key} should end with app name`);
+            }
+        });
+
+        it("each path is the corresponding user dir + app name", () => {
+            const dirs = projectUserDirs("test-app");
+            assert.strictEqual(dirs.downloads, path.join(getPath("downloads"), "test-app"));
+            assert.strictEqual(dirs.desktop, path.join(getPath("desktop"), "test-app"));
+            assert.strictEqual(dirs.documents, path.join(getPath("documents"), "test-app"));
+            assert.strictEqual(dirs.music, path.join(getPath("music"), "test-app"));
+            assert.strictEqual(dirs.pictures, path.join(getPath("pictures"), "test-app"));
+            assert.strictEqual(dirs.videos, path.join(getPath("videos"), "test-app"));
+            assert.strictEqual(dirs.templates, path.join(getPath("templates"), "test-app"));
+            assert.strictEqual(dirs.publicshare, path.join(getPath("publicshare"), "test-app"));
+        });
     });
 
     describe("fontsDir", () => {

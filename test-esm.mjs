@@ -24,6 +24,7 @@ import osUserDirs, {
     projectDirs,
     fontsDir,
     applicationsDir,
+    projectUserDirs,
     getXDGUserDir,
     getXDGDownloadDir,
 } from './index.mjs';
@@ -182,6 +183,28 @@ test('projectDirs vendor option works', () => {
 test('projectDirs vendor + suffix works', () => {
     const dirs = projectDirs('my-app', { vendor: 'TestOrg', suffix: '-nodejs' });
     assert.ok(dirs.config.includes('my-app-nodejs'));
+});
+
+// projectUserDirs
+console.log('\nprojectUserDirs:');
+test('projectUserDirs is a function', () => {
+    assert.equal(typeof projectUserDirs, 'function');
+});
+test('projectUserDirs returns object with all 8 keys', () => {
+    const dirs = projectUserDirs('test-app');
+    const expectedKeys = ['desktop', 'downloads', 'documents', 'music', 'pictures', 'videos', 'templates', 'publicshare'];
+    assert.deepEqual(Object.keys(dirs).sort(), expectedKeys.sort());
+});
+test('projectUserDirs paths contain app name', () => {
+    const dirs = projectUserDirs('esm-test-app');
+    for (const [key, val] of Object.entries(dirs)) {
+        assert.ok(val.includes('esm-test-app'), `${key} should contain app name`);
+    }
+});
+test('projectUserDirs paths match getPath + app name', () => {
+    const dirs = projectUserDirs('test-app');
+    assert.equal(dirs.downloads, path.join(getPath('downloads'), 'test-app'));
+    assert.equal(dirs.desktop, path.join(getPath('desktop'), 'test-app'));
 });
 
 // fontsDir

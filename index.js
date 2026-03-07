@@ -310,6 +310,19 @@ function projectDirs(name, options) {
     };
 }
 
+function projectUserDirs(name) {
+    if (!name || typeof name !== "string") {
+        throw new Error("projectUserDirs requires a non-empty string name");
+    }
+
+    var result = {};
+    var keys = Object.keys(XDG_KEYS);
+    for (var i = 0; i < keys.length; i++) {
+        result[keys[i]] = path.join(resolve(keys[i]), name);
+    }
+    return result;
+}
+
 function applicationsDir() {
     var homedir = os.homedir();
     var platform = process.platform;
@@ -357,6 +370,7 @@ module.exports.configDirs = configDirs;
 module.exports.dataDirs = dataDirs;
 module.exports.projectDirs = projectDirs;
 module.exports.applicationsDir = applicationsDir;
+module.exports.projectUserDirs = projectUserDirs;
 module.exports.getXDGUserDir = getXDGUserDir;
 
 // Deprecated: kept for backward compatibility
