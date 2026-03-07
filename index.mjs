@@ -10,6 +10,7 @@ export const videos = osUserDirs.videos;
 export const templates = osUserDirs.templates;
 export const publicshare = osUserDirs.publicshare;
 export const getPath = osUserDirs.getPath;
+export const binDir = osUserDirs.binDir;
 export const configDir = osUserDirs.configDir;
 export const dataDir = osUserDirs.dataDir;
 export const cacheDir = osUserDirs.cacheDir;

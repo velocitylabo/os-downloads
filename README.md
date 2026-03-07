@@ -165,6 +165,9 @@ Returns the path to the Public Share directory.
 ### `getPath(name)`
 Returns the path to the specified user directory. Valid names: `desktop`, `downloads`, `documents`, `music`, `pictures`, `videos`, `templates`, `publicshare`.
 
+### `binDir()`
+Returns the path to the user local bin directory (`~/.local/bin` on Linux/macOS), or `null` on Windows.
+
 ### Base Directories
 
 #### `configDir()`

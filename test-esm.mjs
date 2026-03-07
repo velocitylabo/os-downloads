@@ -11,6 +11,7 @@ import osUserDirs, {
     templates,
     publicshare,
     getPath,
+    binDir,
     configDir,
     dataDir,
     cacheDir,
@@ -69,6 +70,18 @@ console.log('\ngetPath consistency:');
 for (const [name, fn] of Object.entries(namedExports)) {
     test(`getPath("${name}") === ${name}()`, () => {
         assert.equal(getPath(name), fn());
+    });
+}
+
+// binDir
+console.log('\nbinDir:');
+test('binDir() returns string or null', () => {
+    const result = binDir();
+    assert.ok(result === null || typeof result === 'string');
+});
+if (process.platform !== 'win32') {
+    test('binDir() returns ~/.local/bin', () => {
+        assert.equal(binDir(), path.join(home, '.local', 'bin'));
     });
 }
 

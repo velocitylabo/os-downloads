@@ -137,6 +137,13 @@ function resolveBase(name) {
     return cfg.linux ? path.join(homedir, cfg.linux) : null;
 }
 
+function binDir() {
+    if (process.platform === "win32") {
+        return null;
+    }
+    return path.join(os.homedir(), ".local", "bin");
+}
+
 function configDir() { return resolveBase("config"); }
 function dataDir() { return resolveBase("data"); }
 function cacheDir() { return resolveBase("cache"); }
@@ -272,6 +279,7 @@ module.exports.pictures = pictures;
 module.exports.videos = videos;
 module.exports.templates = templates;
 module.exports.publicshare = publicshare;
+module.exports.binDir = binDir;
 module.exports.configDir = configDir;
 module.exports.dataDir = dataDir;
 module.exports.cacheDir = cacheDir;

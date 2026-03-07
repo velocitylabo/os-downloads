@@ -14,6 +14,7 @@ const {
     videos,
     templates,
     publicshare,
+    binDir,
     configDir,
     dataDir,
     cacheDir,
@@ -157,6 +158,22 @@ describe("os-user-dirs", () => {
             const result = getXDGUserDir("XDG_DOWNLOAD_DIR", configPath);
             assert.strictEqual(result, null);
         });
+    });
+
+    describe("binDir", () => {
+        if (process.platform === "win32") {
+            it("returns null on Windows", () => {
+                assert.strictEqual(binDir(), null);
+            });
+        } else {
+            it("returns ~/.local/bin", () => {
+                assert.strictEqual(binDir(), path.join(os.homedir(), ".local", "bin"));
+            });
+
+            it("returns an absolute path", () => {
+                assert.ok(path.isAbsolute(binDir()));
+            });
+        }
     });
 
     describe("base directories", () => {
