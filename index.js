@@ -241,31 +241,48 @@ const PROJECT_DIR_WIN32_SUB = {
     log:    "Log",
 };
 
+function normalizeVendor(vendor, platform) {
+    if (platform === "linux") {
+        return vendor.toLowerCase().replace(/\s+/g, "-");
+    }
+    return vendor;
+}
+
 function projectDirs(name, options) {
     if (!name || typeof name !== "string") {
         throw new Error("projectDirs requires a non-empty string name");
     }
 
     const suffix = (options && options.suffix != null) ? options.suffix : "";
+    const vendor = (options && options.vendor) ? options.vendor : "";
     const appName = name + suffix;
 
     const homedir = os.homedir();
     const platform = process.platform;
+    const vendorDir = vendor ? normalizeVendor(vendor, platform) : "";
+
+    function joinWithVendor() {
+        var segments = Array.prototype.slice.call(arguments);
+        if (vendorDir) {
+            segments.splice(1, 0, vendorDir);
+        }
+        return path.join.apply(path, segments);
+    }
 
     function resolveProject(kind) {
         if (kind === "temp") {
             if (platform === "win32") {
                 const localAppData = process.env.LOCALAPPDATA || path.join(homedir, "AppData", "Local");
-                return path.join(localAppData, "Temp", appName);
+                return joinWithVendor(localAppData, "Temp", appName);
             }
-            return path.join(os.tmpdir(), appName);
+            return joinWithVendor(os.tmpdir(), appName);
         }
 
         if (kind === "runtime") {
             if (platform === "linux") {
                 const envVal = process.env.XDG_RUNTIME_DIR;
                 if (envVal) {
-                    return path.join(path.resolve(envVal), appName);
+                    return joinWithVendor(path.resolve(envVal), appName);
                 }
             }
             return null;
@@ -276,10 +293,10 @@ function projectDirs(name, options) {
 
         const sub = PROJECT_DIR_WIN32_SUB[kind];
         if (platform === "win32" && sub) {
-            return path.join(base, appName, sub);
+            return joinWithVendor(base, appName, sub);
         }
 
-        return path.join(base, appName);
+        return joinWithVendor(base, appName);
     }
 
     return {

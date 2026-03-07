@@ -99,6 +99,11 @@ dirs.runtime //=> '/run/user/1000/my-app' (or null)
 // With suffix option
 const dirs2 = projectDirs("my-app", { suffix: "-nodejs" });
 dirs2.config //=> '/home/user/.config/my-app-nodejs'
+
+// With vendor option
+const dirs3 = projectDirs("my-app", { vendor: "My Org" });
+dirs3.config //=> '/home/user/.config/my-org/my-app' (Linux)
+dirs3.config //=> '~/Library/Application Support/My Org/my-app' (macOS)
 ```
 
 ### CommonJS
@@ -216,6 +221,7 @@ Returns an object with app-scoped directories for the given application name. Th
 **Parameters:**
 - `name` (string) — Application name
 - `options.suffix` (string, optional) — Suffix appended to the app name (e.g. `"-nodejs"`)
+- `options.vendor` (string, optional) — Vendor/organization name used as a parent directory. On Linux, the vendor name is normalized to lowercase with spaces replaced by hyphens (e.g. `"My Org"` → `"my-org"`). On macOS and Windows, it is used as-is.
 
 **Returns:** `{ config, data, cache, state, log, temp, runtime }`
 
