@@ -522,7 +522,58 @@ describe("os-user-dirs", () => {
             }
         });
 
+        it("vendor option adds parent directory", () => {
+            const dirs = projectDirs("my-app", { vendor: "My Org" });
+            for (const [key, val] of Object.entries(dirs)) {
+                if (val !== null) {
+                    assert.ok(val.includes("my-app"), `${key} should contain app name: ${val}`);
+                    if (process.platform === "linux") {
+                        assert.ok(val.includes("my-org"), `${key} should contain normalized vendor: ${val}`);
+                    } else {
+                        assert.ok(val.includes("My Org"), `${key} should contain vendor: ${val}`);
+                    }
+                }
+            }
+        });
+
+        it("vendor with suffix combines correctly", () => {
+            const dirs = projectDirs("my-app", { vendor: "My Org", suffix: "-nodejs" });
+            for (const [key, val] of Object.entries(dirs)) {
+                if (val !== null) {
+                    assert.ok(val.includes("my-app-nodejs"), `${key} should contain suffixed name: ${val}`);
+                    if (process.platform === "linux") {
+                        assert.ok(val.includes("my-org"), `${key} should contain normalized vendor: ${val}`);
+                    } else {
+                        assert.ok(val.includes("My Org"), `${key} should contain vendor: ${val}`);
+                    }
+                }
+            }
+        });
+
+        it("vendor is not used when not provided", () => {
+            const dirs = projectDirs("my-app");
+            const dirsWithVendor = projectDirs("my-app", { vendor: "TestVendor" });
+            for (const [key, val] of Object.entries(dirs)) {
+                if (val !== null) {
+                    assert.ok(!val.includes("TestVendor"), `${key} should not contain vendor when not set: ${val}`);
+                    assert.ok(!val.includes("testvendor"), `${key} should not contain vendor when not set: ${val}`);
+                }
+            }
+        });
+
         if (process.platform === "linux") {
+            it("vendor is normalized on Linux (lowercase, spaces to hyphens)", () => {
+                const dirs = projectDirs("my-app", { vendor: "My Cool Org" });
+                assert.ok(dirs.config.includes("my-cool-org"));
+                assert.ok(!dirs.config.includes("My Cool Org"));
+            });
+
+            it("vendor creates correct path structure on Linux", () => {
+                delete process.env.XDG_CONFIG_HOME;
+                const dirs = projectDirs("my-app", { vendor: "My Org" });
+                assert.strictEqual(dirs.config, path.join(os.homedir(), ".config", "my-org", "my-app"));
+            });
+
             it("config is under XDG_CONFIG_HOME", () => {
                 delete process.env.XDG_CONFIG_HOME;
                 const dirs = projectDirs("test-app");

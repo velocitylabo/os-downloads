@@ -81,6 +81,8 @@ export function getBasePath(name: BaseDirName): string | null;
 interface ProjectDirsOptions {
     /** Suffix appended to the app name (default: ""). */
     suffix?: string;
+    /** Vendor/organization name used as a parent directory (e.g. "My Org"). On Linux, normalized to lowercase with hyphens. */
+    vendor?: string;
 }
 
 interface ProjectDirsResult {

@@ -171,6 +171,18 @@ test('projectDirs suffix option works', () => {
     const dirs = projectDirs('my-app', { suffix: '-nodejs' });
     assert.ok(dirs.config.includes('my-app-nodejs'));
 });
+test('projectDirs vendor option works', () => {
+    const dirs = projectDirs('my-app', { vendor: 'TestVendor' });
+    for (const [key, val] of Object.entries(dirs)) {
+        if (val !== null) {
+            assert.ok(val.includes('my-app'), `${key} should contain app name`);
+        }
+    }
+});
+test('projectDirs vendor + suffix works', () => {
+    const dirs = projectDirs('my-app', { vendor: 'TestOrg', suffix: '-nodejs' });
+    assert.ok(dirs.config.includes('my-app-nodejs'));
+});
 
 // fontsDir
 console.log('\nfontsDir:');
