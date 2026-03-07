@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.7.0](https://github.com/velocitylabo/os-user-dirs/compare/v2.6.0...v2.7.0) (2026-03-07)
+
+
+### Features
+
+* add projectUserDirs() function ([466a162](https://github.com/velocitylabo/os-user-dirs/commit/466a162bbcdb2bae7cacd1253d350de9fa9cd4a8))
+* add vendor option to projectDirs() ([7e06397](https://github.com/velocitylabo/os-user-dirs/commit/7e06397aeeacad7afa3034e4955ae61cda0c5c52))
+
 ## [2.6.0](https://github.com/velocitylabo/os-user-dirs/compare/v2.5.0...v2.6.0) (2026-03-07)
 
 
