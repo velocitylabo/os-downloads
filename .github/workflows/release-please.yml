@@ -7,9 +7,11 @@ on:
 
 jobs:
   release-please:
-    if: ${{ secrets.RELEASE_PLEASE_TOKEN != '' }}
     runs-on: ubuntu-latest
+    env:
+      HAS_TOKEN: ${{ secrets.RELEASE_PLEASE_TOKEN != '' }}
     steps:
       - uses: googleapis/release-please-action@v4
+        if: ${{ env.HAS_TOKEN == 'true' }}
         with:
           token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
