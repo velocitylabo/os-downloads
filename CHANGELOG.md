@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.6.0](https://github.com/velocitylabo/os-user-dirs/compare/v2.5.0...v2.6.0) (2026-03-07)
+
+
+### Features
+
+* add applicationsDir() function ([2e6bbfd](https://github.com/velocitylabo/os-user-dirs/commit/2e6bbfdba7e4f22b1ff399131f095dba77984cab))
+* add binDir() function ([#4](https://github.com/velocitylabo/os-user-dirs/issues/4)) ([c1be4ed](https://github.com/velocitylabo/os-user-dirs/commit/c1be4eda6c711923441cbe39cce5eaa1414f16ca))
+* add fontsDir() function ([307de88](https://github.com/velocitylabo/os-user-dirs/commit/307de8847c5aa70626633e85fe8eee4ab95a588e))
+
 ## [2.5.0](https://github.com/velocitylabo/os-user-dirs/compare/v2.4.0...v2.5.0) (2026-03-07)
 
 
