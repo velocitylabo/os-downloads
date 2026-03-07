@@ -17,6 +17,7 @@ export const cacheDir = osUserDirs.cacheDir;
 export const stateDir = osUserDirs.stateDir;
 export const logDir = osUserDirs.logDir;
 export const runtimeDir = osUserDirs.runtimeDir;
+export const fontsDir = osUserDirs.fontsDir;
 export const getBasePath = osUserDirs.getBasePath;
 export const configDirs = osUserDirs.configDirs;
 export const dataDirs = osUserDirs.dataDirs;

@@ -25,6 +25,7 @@ const {
     configDirs,
     dataDirs,
     projectDirs,
+    fontsDir,
 } = require("./");
 
 describe("os-user-dirs", () => {
@@ -579,6 +580,52 @@ describe("os-user-dirs", () => {
                 assert.strictEqual(dirs.cache, "/tmp/custom-cache/test-app");
                 assert.strictEqual(dirs.state, "/tmp/custom-state/test-app");
                 assert.strictEqual(dirs.log, "/tmp/custom-state/test-app");
+            });
+        }
+    });
+
+    describe("fontsDir", () => {
+        const envKeys = ["XDG_DATA_HOME"];
+        const savedEnv = {};
+
+        beforeEach(() => {
+            envKeys.forEach((key) => {
+                savedEnv[key] = process.env[key];
+            });
+        });
+
+        afterEach(() => {
+            envKeys.forEach((key) => {
+                if (savedEnv[key] === undefined) {
+                    delete process.env[key];
+                } else {
+                    process.env[key] = savedEnv[key];
+                }
+            });
+        });
+
+        it("returns an absolute path", () => {
+            assert.ok(path.isAbsolute(fontsDir()));
+        });
+
+        it("path ends with 'fonts' or 'Fonts'", () => {
+            assert.ok(path.basename(fontsDir()).match(/fonts/i));
+        });
+
+        if (process.platform === "linux") {
+            it("defaults to ~/.local/share/fonts when XDG_DATA_HOME is unset", () => {
+                delete process.env.XDG_DATA_HOME;
+                assert.strictEqual(fontsDir(), path.join(os.homedir(), ".local", "share", "fonts"));
+            });
+
+            it("respects XDG_DATA_HOME", () => {
+                process.env.XDG_DATA_HOME = "/tmp/custom-data";
+                assert.strictEqual(fontsDir(), "/tmp/custom-data/fonts");
+            });
+
+            it("ignores empty XDG_DATA_HOME", () => {
+                process.env.XDG_DATA_HOME = "";
+                assert.strictEqual(fontsDir(), path.join(os.homedir(), ".local", "share", "fonts"));
             });
         }
     });

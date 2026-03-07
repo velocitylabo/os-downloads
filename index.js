@@ -151,6 +151,31 @@ function stateDir() { return resolveBase("state"); }
 function logDir() { return resolveBase("log"); }
 function runtimeDir() { return resolveBase("runtime"); }
 
+function fontsDir() {
+    var platform = process.platform;
+    var homedir = os.homedir();
+
+    if (platform === "linux") {
+        var envVal = process.env.XDG_DATA_HOME;
+        if (envVal) {
+            return path.join(path.resolve(envVal), "fonts");
+        }
+        return path.join(homedir, ".local", "share", "fonts");
+    }
+
+    if (platform === "darwin") {
+        return path.join(homedir, "Library", "Fonts");
+    }
+
+    if (platform === "win32") {
+        var localAppData = process.env.LOCALAPPDATA || path.join(homedir, "AppData", "Local");
+        return path.join(localAppData, "Microsoft", "Windows", "Fonts");
+    }
+
+    // Unknown platform: use XDG-style default
+    return path.join(homedir, ".local", "share", "fonts");
+}
+
 const SEARCH_DIRS_CONFIG = {
     config: {
         env: "XDG_CONFIG_DIRS",
@@ -286,6 +311,7 @@ module.exports.cacheDir = cacheDir;
 module.exports.stateDir = stateDir;
 module.exports.logDir = logDir;
 module.exports.runtimeDir = runtimeDir;
+module.exports.fontsDir = fontsDir;
 module.exports.getBasePath = getBasePath;
 module.exports.configDirs = configDirs;
 module.exports.dataDirs = dataDirs;

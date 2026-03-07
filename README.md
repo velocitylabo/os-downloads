@@ -188,6 +188,9 @@ Returns the path to the log directory (`~/.local/state` on Linux, `~/Library/Log
 #### `runtimeDir()`
 Returns the path to the runtime directory (`$XDG_RUNTIME_DIR` on Linux), or `null` if unavailable.
 
+#### `fontsDir()`
+Returns the path to the user fonts directory (`~/.local/share/fonts` on Linux, `~/Library/Fonts` on macOS, `%LOCALAPPDATA%/Microsoft/Windows/Fonts` on Windows). On Linux, respects `$XDG_DATA_HOME`.
+
 #### `getBasePath(name)`
 Returns the path to the specified base directory. Valid names: `config`, `data`, `cache`, `state`, `log`, `runtime`.
 

@@ -50,6 +50,9 @@ export function logDir(): string;
 /** Returns the path to the XDG runtime directory, or null if unavailable. */
 export function runtimeDir(): string | null;
 
+/** Returns the path to the user fonts directory. */
+export function fontsDir(): string;
+
 /**
  * Returns the system config directory search path list.
  * On Linux, reads `$XDG_CONFIG_DIRS` (default: `["/etc/xdg"]`).
@@ -127,6 +130,7 @@ declare const osUserDirs: typeof downloads & {
     stateDir: typeof stateDir;
     logDir: typeof logDir;
     runtimeDir: typeof runtimeDir;
+    fontsDir: typeof fontsDir;
     getBasePath: typeof getBasePath;
     configDirs: typeof configDirs;
     dataDirs: typeof dataDirs;

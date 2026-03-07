@@ -22,6 +22,7 @@ import osUserDirs, {
     configDirs,
     dataDirs,
     projectDirs,
+    fontsDir,
     getXDGUserDir,
     getXDGDownloadDir,
 } from './index.mjs';
@@ -168,6 +169,17 @@ test('projectDirs paths contain app name', () => {
 test('projectDirs suffix option works', () => {
     const dirs = projectDirs('my-app', { suffix: '-nodejs' });
     assert.ok(dirs.config.includes('my-app-nodejs'));
+});
+
+// fontsDir
+console.log('\nfontsDir:');
+test('fontsDir() returns absolute path', () => {
+    const result = fontsDir();
+    assert.ok(path.isAbsolute(result), 'fontsDir() should be absolute');
+});
+test('fontsDir() path ends with fonts or Fonts', () => {
+    const result = fontsDir();
+    assert.ok(path.basename(result).match(/fonts/i), 'should end with fonts');
 });
 
 // Utility exports exist
