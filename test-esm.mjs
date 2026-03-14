@@ -26,6 +26,8 @@ import osUserDirs, {
     applicationsDir,
     projectUserDirs,
     getXDGUserDir,
+    ensureDirSync,
+    ensureDir,
     getXDGDownloadDir,
 } from './index.mjs';
 
@@ -226,6 +228,15 @@ test('applicationsDir() returns absolute path', () => {
 });
 test('applicationsDir() returns a string', () => {
     assert.equal(typeof applicationsDir(), 'string');
+});
+
+// ensureDirSync / ensureDir
+console.log('\nensureDirSync / ensureDir:');
+test('ensureDirSync is a function', () => {
+    assert.equal(typeof ensureDirSync, 'function');
+});
+test('ensureDir is a function', () => {
+    assert.equal(typeof ensureDir, 'function');
 });
 
 // Utility exports exist

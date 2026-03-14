@@ -137,6 +137,20 @@ export function applicationsDir(): string;
 export function getXDGUserDir(key: string, configPath?: string): string | null;
 
 /**
+ * Ensures the specified directory exists, creating it recursively if necessary.
+ * @param dirPath - The directory path to ensure exists
+ * @returns The directory path
+ */
+export function ensureDirSync(dirPath: string): string;
+
+/**
+ * Ensures the specified directory exists, creating it recursively if necessary (async version).
+ * @param dirPath - The directory path to ensure exists
+ * @returns A promise that resolves with the directory path
+ */
+export function ensureDir(dirPath: string): Promise<string>;
+
+/**
  * @deprecated Use `getXDGUserDir("XDG_DOWNLOAD_DIR", configPath)` instead.
  */
 export function getXDGDownloadDir(configPath?: string): string | null;
@@ -166,6 +180,8 @@ declare const osUserDirs: typeof downloads & {
     applicationsDir: typeof applicationsDir;
     projectUserDirs: typeof projectUserDirs;
     getXDGUserDir: typeof getXDGUserDir;
+    ensureDirSync: typeof ensureDirSync;
+    ensureDir: typeof ensureDir;
     getXDGDownloadDir: typeof getXDGDownloadDir;
 };
 

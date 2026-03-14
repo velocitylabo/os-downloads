@@ -28,6 +28,8 @@ const {
     fontsDir,
     applicationsDir,
     projectUserDirs,
+    ensureDirSync,
+    ensureDir,
 } = require("./");
 
 describe("os-user-dirs", () => {
@@ -779,6 +781,78 @@ describe("os-user-dirs", () => {
                 assert.strictEqual(applicationsDir(), path.join(os.homedir(), "Applications"));
             });
         }
+    });
+
+    describe("ensureDirSync", () => {
+        const tmpDir = path.join(os.tmpdir(), "os-user-dirs-ensure-test");
+
+        afterEach(() => {
+            fs.rmSync(tmpDir, { recursive: true, force: true });
+        });
+
+        it("creates a new directory", () => {
+            const dirPath = path.join(tmpDir, "new-dir");
+            const result = ensureDirSync(dirPath);
+            assert.strictEqual(result, dirPath);
+            assert.ok(fs.existsSync(dirPath));
+            assert.ok(fs.statSync(dirPath).isDirectory());
+        });
+
+        it("creates nested directories recursively", () => {
+            const dirPath = path.join(tmpDir, "a", "b", "c");
+            const result = ensureDirSync(dirPath);
+            assert.strictEqual(result, dirPath);
+            assert.ok(fs.existsSync(dirPath));
+        });
+
+        it("succeeds when directory already exists", () => {
+            const dirPath = path.join(tmpDir, "existing");
+            fs.mkdirSync(dirPath, { recursive: true });
+            const result = ensureDirSync(dirPath);
+            assert.strictEqual(result, dirPath);
+            assert.ok(fs.existsSync(dirPath));
+        });
+
+        it("throws when path is not provided", () => {
+            assert.throws(() => ensureDirSync(), /non-empty string/);
+            assert.throws(() => ensureDirSync(""), /non-empty string/);
+        });
+    });
+
+    describe("ensureDir", () => {
+        const tmpDir = path.join(os.tmpdir(), "os-user-dirs-ensure-async-test");
+
+        afterEach(() => {
+            fs.rmSync(tmpDir, { recursive: true, force: true });
+        });
+
+        it("creates a new directory", async () => {
+            const dirPath = path.join(tmpDir, "new-dir");
+            const result = await ensureDir(dirPath);
+            assert.strictEqual(result, dirPath);
+            assert.ok(fs.existsSync(dirPath));
+            assert.ok(fs.statSync(dirPath).isDirectory());
+        });
+
+        it("creates nested directories recursively", async () => {
+            const dirPath = path.join(tmpDir, "a", "b", "c");
+            const result = await ensureDir(dirPath);
+            assert.strictEqual(result, dirPath);
+            assert.ok(fs.existsSync(dirPath));
+        });
+
+        it("succeeds when directory already exists", async () => {
+            const dirPath = path.join(tmpDir, "existing");
+            fs.mkdirSync(dirPath, { recursive: true });
+            const result = await ensureDir(dirPath);
+            assert.strictEqual(result, dirPath);
+            assert.ok(fs.existsSync(dirPath));
+        });
+
+        it("rejects when path is not provided", async () => {
+            await assert.rejects(() => ensureDir(), /non-empty string/);
+            await assert.rejects(() => ensureDir(""), /non-empty string/);
+        });
     });
 
     describe("getXDGDownloadDir (backward compatibility)", () => {

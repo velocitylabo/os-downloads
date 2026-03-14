@@ -346,6 +346,23 @@ function applicationsDir() {
     return path.join(homedir, ".local", "share", "applications");
 }
 
+function ensureDirSync(dirPath) {
+    if (!dirPath || typeof dirPath !== "string") {
+        throw new Error("ensureDirSync requires a non-empty string path");
+    }
+    fs.mkdirSync(dirPath, { recursive: true });
+    return dirPath;
+}
+
+function ensureDir(dirPath) {
+    if (!dirPath || typeof dirPath !== "string") {
+        return Promise.reject(new Error("ensureDir requires a non-empty string path"));
+    }
+    return fs.promises.mkdir(dirPath, { recursive: true }).then(function () {
+        return dirPath;
+    });
+}
+
 // Backward compatibility: require("os-user-dirs")() returns Downloads path
 module.exports = downloads;
 module.exports.getPath = getPath;
@@ -372,6 +389,8 @@ module.exports.projectDirs = projectDirs;
 module.exports.applicationsDir = applicationsDir;
 module.exports.projectUserDirs = projectUserDirs;
 module.exports.getXDGUserDir = getXDGUserDir;
+module.exports.ensureDirSync = ensureDirSync;
+module.exports.ensureDir = ensureDir;
 
 // Deprecated: kept for backward compatibility
 module.exports.getXDGDownloadDir = function (configPath) {

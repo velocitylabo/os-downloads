@@ -251,6 +251,26 @@ Returns an object with project-scoped user directories. Each value is the corres
 
 **Returns:** `{ desktop, downloads, documents, music, pictures, videos, templates, publicshare }`
 
+### Utilities
+
+#### `ensureDirSync(dirPath)`
+Ensures the specified directory exists, creating it recursively if necessary. Returns the directory path.
+
+#### `ensureDir(dirPath)`
+Async version of `ensureDirSync`. Returns a promise that resolves with the directory path.
+
+```javascript
+import { projectDirs, ensureDirSync, ensureDir } from "os-user-dirs";
+
+const dirs = projectDirs("my-app");
+
+// Sync
+ensureDirSync(dirs.config);
+
+// Async
+await ensureDir(dirs.data);
+```
+
 ## License
 
 MIT
