@@ -28,6 +28,7 @@ const {
     applicationsDir,
     projectUserDirs,
     homeDir,
+    trashDir,
     ensureDirSync,
     ensureDir,
 } = require("./");
@@ -741,6 +742,73 @@ describe("os-user-dirs", () => {
             it("ignores empty XDG_DATA_HOME", () => {
                 process.env.XDG_DATA_HOME = "";
                 assert.strictEqual(fontsDir(), path.join(os.homedir(), ".local", "share", "fonts"));
+            });
+        }
+    });
+
+    describe("trashDir", () => {
+        const envKeys = ["XDG_DATA_HOME"];
+        const savedEnv = {};
+
+        beforeEach(() => {
+            envKeys.forEach((key) => {
+                savedEnv[key] = process.env[key];
+            });
+        });
+
+        afterEach(() => {
+            envKeys.forEach((key) => {
+                if (savedEnv[key] === undefined) {
+                    delete process.env[key];
+                } else {
+                    process.env[key] = savedEnv[key];
+                }
+            });
+        });
+
+        it("returns string or null", () => {
+            const result = trashDir();
+            assert.ok(result === null || typeof result === "string");
+        });
+
+        if (process.platform === "win32") {
+            it("returns null on Windows", () => {
+                assert.strictEqual(trashDir(), null);
+            });
+        }
+
+        if (process.platform === "linux") {
+            it("defaults to ~/.local/share/Trash when XDG_DATA_HOME is unset", () => {
+                delete process.env.XDG_DATA_HOME;
+                assert.strictEqual(trashDir(), path.join(os.homedir(), ".local", "share", "Trash"));
+            });
+
+            it("respects XDG_DATA_HOME", () => {
+                process.env.XDG_DATA_HOME = "/tmp/custom-data";
+                assert.strictEqual(trashDir(), "/tmp/custom-data/Trash");
+            });
+
+            it("ignores empty XDG_DATA_HOME", () => {
+                process.env.XDG_DATA_HOME = "";
+                assert.strictEqual(trashDir(), path.join(os.homedir(), ".local", "share", "Trash"));
+            });
+
+            it("returns an absolute path", () => {
+                assert.ok(path.isAbsolute(trashDir()));
+            });
+
+            it("path ends with Trash", () => {
+                assert.strictEqual(path.basename(trashDir()), "Trash");
+            });
+        }
+
+        if (process.platform === "darwin") {
+            it("returns ~/.Trash on macOS", () => {
+                assert.strictEqual(trashDir(), path.join(os.homedir(), ".Trash"));
+            });
+
+            it("returns an absolute path", () => {
+                assert.ok(path.isAbsolute(trashDir()));
             });
         }
     });

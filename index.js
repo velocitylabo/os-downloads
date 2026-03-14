@@ -323,6 +323,30 @@ function projectUserDirs(name) {
     return result;
 }
 
+function trashDir() {
+    var platform = process.platform;
+    var homedir = os.homedir();
+
+    if (platform === "linux") {
+        var envVal = process.env.XDG_DATA_HOME;
+        var base = envVal ? path.resolve(envVal) : path.join(homedir, ".local", "share");
+        return path.join(base, "Trash");
+    }
+
+    if (platform === "darwin") {
+        return path.join(homedir, ".Trash");
+    }
+
+    if (platform === "win32") {
+        return null;
+    }
+
+    // Unknown platform: use XDG-style default
+    var envVal = process.env.XDG_DATA_HOME;
+    var base = envVal ? path.resolve(envVal) : path.join(homedir, ".local", "share");
+    return path.join(base, "Trash");
+}
+
 function applicationsDir() {
     var homedir = os.homedir();
     var platform = process.platform;
@@ -395,4 +419,5 @@ module.exports.projectUserDirs = projectUserDirs;
 module.exports.homeDir = homeDir;
 module.exports.getXDGUserDir = getXDGUserDir;
 module.exports.ensureDirSync = ensureDirSync;
+module.exports.trashDir = trashDir;
 module.exports.ensureDir = ensureDir;

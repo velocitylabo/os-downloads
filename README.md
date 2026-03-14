@@ -199,6 +199,12 @@ Returns the path to the user's home directory. Uses `os.homedir()` internally.
 ### `binDir()`
 Returns the path to the user local bin directory (`~/.local/bin` on Linux/macOS), or `null` on Windows.
 
+### `trashDir()`
+Returns the path to the user trash directory, or `null` on Windows.
+- Linux: `$XDG_DATA_HOME/Trash` (default `~/.local/share/Trash`) — FreeDesktop Trash spec
+- macOS: `~/.Trash`
+- Windows: `null` (Recycle Bin requires Shell API)
+
 ### `applicationsDir()`
 Returns the path to the user applications directory.
 - Linux: `$XDG_DATA_HOME/applications` (default `~/.local/share/applications`)

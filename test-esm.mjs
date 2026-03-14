@@ -27,6 +27,7 @@ import osUserDirs, {
     projectUserDirs,
     homeDir,
     getXDGUserDir,
+    trashDir,
     ensureDirSync,
     ensureDir,
 } from './index.mjs';
@@ -238,6 +239,18 @@ test('applicationsDir() returns absolute path', () => {
 test('applicationsDir() returns a string', () => {
     assert.equal(typeof applicationsDir(), 'string');
 });
+
+// trashDir
+console.log('\ntrashDir:');
+test('trashDir() returns string or null', () => {
+    const result = trashDir();
+    assert.ok(result === null || typeof result === 'string');
+});
+if (process.platform !== 'win32') {
+    test('trashDir() returns an absolute path', () => {
+        assert.ok(path.isAbsolute(trashDir()));
+    });
+}
 
 // ensureDirSync / ensureDir
 console.log('\nensureDirSync / ensureDir:');

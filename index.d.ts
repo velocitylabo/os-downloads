@@ -124,6 +124,14 @@ interface ProjectUserDirsResult {
 export function projectUserDirs(name: string): ProjectUserDirsResult;
 
 /**
+ * Returns the path to the user trash directory, or null on Windows.
+ * Linux: `$XDG_DATA_HOME/Trash` (default `~/.local/share/Trash`)
+ * macOS: `~/.Trash`
+ * Windows: `null` (Recycle Bin requires Shell API)
+ */
+export function trashDir(): string | null;
+
+/**
  * Returns the path to the user applications directory.
  * Linux: `$XDG_DATA_HOME/applications` (default `~/.local/share/applications`)
  * macOS: `~/Applications`
@@ -175,6 +183,7 @@ declare const osUserDirs: typeof downloads & {
     configDirs: typeof configDirs;
     dataDirs: typeof dataDirs;
     projectDirs: typeof projectDirs;
+    trashDir: typeof trashDir;
     applicationsDir: typeof applicationsDir;
     projectUserDirs: typeof projectUserDirs;
     homeDir: typeof homeDir;

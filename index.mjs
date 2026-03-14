@@ -26,5 +26,6 @@ export const applicationsDir = osUserDirs.applicationsDir;
 export const projectUserDirs = osUserDirs.projectUserDirs;
 export const homeDir = osUserDirs.homeDir;
 export const getXDGUserDir = osUserDirs.getXDGUserDir;
+export const trashDir = osUserDirs.trashDir;
 export const ensureDirSync = osUserDirs.ensureDirSync;
 export const ensureDir = osUserDirs.ensureDir;
