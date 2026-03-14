@@ -27,4 +27,3 @@ export const projectUserDirs = osUserDirs.projectUserDirs;
 export const getXDGUserDir = osUserDirs.getXDGUserDir;
 export const ensureDirSync = osUserDirs.ensureDirSync;
 export const ensureDir = osUserDirs.ensureDir;
-export const getXDGDownloadDir = osUserDirs.getXDGDownloadDir;

@@ -275,6 +275,25 @@ ensureDirSync(dirs.config);
 await ensureDir(dirs.data);
 ```
 
+## Migration from v2.x
+
+### `getXDGDownloadDir()` removed
+
+`getXDGDownloadDir()` was deprecated in v2.3.0 and has been removed in v3.0.0.
+
+**Before (v2.x):**
+```javascript
+const { getXDGDownloadDir } = require("os-user-dirs");
+getXDGDownloadDir(); // reads XDG user-dirs.dirs for download path
+```
+
+**After (v3.x):**
+```javascript
+const { downloads, getXDGUserDir } = require("os-user-dirs");
+downloads();                              // recommended: cross-platform Downloads path
+getXDGUserDir("XDG_DOWNLOAD_DIR");        // direct replacement if you need XDG config parsing
+```
+
 ## License
 
 MIT

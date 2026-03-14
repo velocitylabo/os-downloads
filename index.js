@@ -391,8 +391,3 @@ module.exports.projectUserDirs = projectUserDirs;
 module.exports.getXDGUserDir = getXDGUserDir;
 module.exports.ensureDirSync = ensureDirSync;
 module.exports.ensureDir = ensureDir;
-
-// Deprecated: kept for backward compatibility
-module.exports.getXDGDownloadDir = function (configPath) {
-    return getXDGUserDir("XDG_DOWNLOAD_DIR", configPath);
-};

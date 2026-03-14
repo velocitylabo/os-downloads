@@ -150,11 +150,6 @@ export function ensureDirSync(dirPath: string): string;
  */
 export function ensureDir(dirPath: string): Promise<string>;
 
-/**
- * @deprecated Use `getXDGUserDir("XDG_DOWNLOAD_DIR", configPath)` instead.
- */
-export function getXDGDownloadDir(configPath?: string): string | null;
-
 declare const osUserDirs: typeof downloads & {
     downloads: typeof downloads;
     desktop: typeof desktop;
@@ -182,7 +177,6 @@ declare const osUserDirs: typeof downloads & {
     getXDGUserDir: typeof getXDGUserDir;
     ensureDirSync: typeof ensureDirSync;
     ensureDir: typeof ensureDir;
-    getXDGDownloadDir: typeof getXDGDownloadDir;
 };
 
 export default osUserDirs;

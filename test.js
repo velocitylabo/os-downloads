@@ -4,7 +4,6 @@ const os = require("node:os");
 const fs = require("node:fs");
 const downloads = require("./");
 const {
-    getXDGDownloadDir,
     getXDGUserDir,
     getPath,
     desktop,
@@ -855,28 +854,10 @@ describe("os-user-dirs", () => {
         });
     });
 
-    describe("getXDGDownloadDir (backward compatibility)", () => {
-        const tmpDir = path.join(os.tmpdir(), "os-user-dirs-test");
-
-        beforeEach(() => {
-            fs.mkdirSync(tmpDir, { recursive: true });
-        });
-
-        afterEach(() => {
-            fs.rmSync(tmpDir, { recursive: true, force: true });
-        });
-
-        it("parses XDG_DOWNLOAD_DIR with $HOME", () => {
-            const configPath = path.join(tmpDir, "user-dirs.dirs");
-            fs.writeFileSync(configPath, 'XDG_DOWNLOAD_DIR="$HOME/Downloads"\n');
-            const result = getXDGDownloadDir(configPath);
-            assert.strictEqual(result, path.join(os.homedir(), "Downloads"));
-        });
-
-        it("returns null when config file does not exist", () => {
-            const configPath = path.join(tmpDir, "nonexistent");
-            const result = getXDGDownloadDir(configPath);
-            assert.strictEqual(result, null);
+    describe("getXDGDownloadDir removal", () => {
+        it("getXDGDownloadDir is no longer exported", () => {
+            const mod = require("./");
+            assert.strictEqual(mod.getXDGDownloadDir, undefined);
         });
     });
 });

@@ -28,7 +28,6 @@ import osUserDirs, {
     getXDGUserDir,
     ensureDirSync,
     ensureDir,
-    getXDGDownloadDir,
 } from './index.mjs';
 
 const home = os.homedir();
@@ -244,8 +243,8 @@ console.log('\nutility exports:');
 test('getXDGUserDir is a function', () => {
     assert.equal(typeof getXDGUserDir, 'function');
 });
-test('getXDGDownloadDir is a function', () => {
-    assert.equal(typeof getXDGDownloadDir, 'function');
+test('getXDGDownloadDir is not exported', () => {
+    assert.equal(osUserDirs.getXDGDownloadDir, undefined);
 });
 
 console.log(`\n${passed} tests passed`);
