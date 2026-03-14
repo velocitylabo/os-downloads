@@ -1,7 +1,7 @@
-const assert = require("assert");
-const path = require("path");
-const os = require("os");
-const fs = require("fs");
+const assert = require("node:assert");
+const path = require("node:path");
+const os = require("node:os");
+const fs = require("node:fs");
 const downloads = require("./");
 const {
     getXDGDownloadDir,

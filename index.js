@@ -1,6 +1,6 @@
-const path = require("path");
-const os = require("os");
-const fs = require("fs");
+const path = require("node:path");
+const os = require("node:os");
+const fs = require("node:fs");
 
 const XDG_KEYS = {
     desktop: "XDG_DESKTOP_DIR",

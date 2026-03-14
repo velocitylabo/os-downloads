@@ -4,6 +4,10 @@ Get OS-specific user directories (Downloads, Desktop, Documents, etc.) and XDG b
 
 > **Note:** This package was previously published as [`os-downloads`](https://www.npmjs.com/package/os-downloads). The old package is deprecated — please use `os-user-dirs` instead.
 
+## Requirements
+
+- Node.js 18 or later
+
 ## Supported platforms
 
 - Windows
