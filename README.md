@@ -281,6 +281,10 @@ ensureDirSync(dirs.config);
 await ensureDir(dirs.data);
 ```
 
+## Migration from env-paths
+
+Switching from [env-paths](https://github.com/sindresorhus/env-paths)? See the **[Migration Guide](docs/migration-from-env-paths.md)** for API mapping, code examples, and a summary of additional features.
+
 ## Migration from v2.x
 
 ### `getXDGDownloadDir()` removed
