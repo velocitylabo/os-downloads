@@ -1,6 +1,6 @@
 {
   "name": "os-user-dirs",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Get OS-specific user directories and XDG base directories (config, data, cache, runtime) with zero dependencies.",
   "main": "index.js",
   "types": "index.d.ts",
@@ -73,9 +73,16 @@
   "homepage": "https://github.com/velocitylabo/os-user-dirs#readme",
   "c8": {
     "all": true,
-    "src": ["."],
-    "include": ["index.js"],
-    "reporter": ["text", "lcov"],
+    "src": [
+      "."
+    ],
+    "include": [
+      "index.js"
+    ],
+    "reporter": [
+      "text",
+      "lcov"
+    ],
     "check-coverage": true,
     "branches": 80,
     "lines": 75,
