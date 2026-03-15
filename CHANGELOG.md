@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.1](https://github.com/velocitylabo/os-user-dirs/compare/v3.0.0...v3.0.1) (2026-03-15)
+
+
+### Bug Fixes
+
+* **ci:** run coverage check only on ubuntu ([#37](https://github.com/velocitylabo/os-user-dirs/issues/37)) ([5cf2af7](https://github.com/velocitylabo/os-user-dirs/commit/5cf2af73e2dd57ef14cc8a24118c90a3d6946db2))
+
 ## [3.0.0](https://github.com/velocitylabo/os-user-dirs/compare/v2.7.0...v3.0.0) (2026-03-14)
 
 
