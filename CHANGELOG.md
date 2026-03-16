@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.0](https://github.com/velocitylabo/os-user-dirs/compare/v3.0.1...v3.1.0) (2026-03-16)
+
+
+### Features
+
+* optimize npm keywords for improved discoverability ([#48](https://github.com/velocitylabo/os-user-dirs/issues/48)) ([e30ab62](https://github.com/velocitylabo/os-user-dirs/commit/e30ab62c7d9cc6068f7b5db34dcc3b071be8f211))
+
 ## [3.0.1](https://github.com/velocitylabo/os-user-dirs/compare/v3.0.0...v3.0.1) (2026-03-15)
 
 
