@@ -271,6 +271,8 @@ getBasePath("unknown"); // Type error
 ## Integration guides
 
 - **[Electron Guide](docs/guide-electron.md)** — Using os-user-dirs in Electron apps: `app.getPath()` mapping, main/renderer process patterns, vendor-scoped directories
+- **[Tauri Guide](docs/guide-tauri.md)** — Using os-user-dirs in Tauri apps: path API mapping, sidecar patterns, shared config with CLI companions
+- **[VS Code Extension Guide](docs/guide-vscode-extension.md)** — Using os-user-dirs in VS Code extensions: `globalStorageUri` comparison, file export patterns, shared config with CLI tools
 - **[CLI Tools Guide](docs/guide-cli-tools.md)** — Using `projectDirs()` with commander, yargs, and oclif for config, cache, and log management
 
 ## Migration Guides

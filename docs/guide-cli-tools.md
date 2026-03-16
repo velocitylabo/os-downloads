@@ -198,7 +198,7 @@ const dirs = projectDirs('deploy', { vendor: 'acme' });
 dirs.config;
 //=> '~/.config/acme/deploy'                        (Linux)
 //=> '~/Library/Application Support/acme/deploy'     (macOS)
-//=> '%LOCALAPPDATA%/acme/deploy/Config'             (Windows)
+//=> '%APPDATA%/acme/deploy/Config'                  (Windows)
 ```
 
 This keeps multiple CLI tools from the same organization grouped together.

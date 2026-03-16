@@ -129,7 +129,7 @@ const dirs = projectDirs('my-app', { vendor: 'My Company' });
 dirs.config;
 //=> '~/.config/my-company/my-app'           (Linux)
 //=> '~/Library/Application Support/My Company/my-app'  (macOS)
-//=> '%LOCALAPPDATA%/My Company/my-app/Config'          (Windows)
+//=> '%APPDATA%/My Company/my-app/Config'               (Windows)
 ```
 
 This is useful when your organization ships multiple Electron apps that share configuration or data.
