@@ -415,6 +415,39 @@ function ensureDir(dirPath) {
     });
 }
 
+// Namespace exports
+const user = {
+    desktop: desktop,
+    downloads: downloads,
+    documents: documents,
+    music: music,
+    pictures: pictures,
+    videos: videos,
+    templates: templates,
+    publicshare: publicshare,
+    homeDir: homeDir,
+    binDir: binDir,
+    fontsDir: fontsDir,
+    trashDir: trashDir,
+    applicationsDir: applicationsDir,
+};
+
+const base = {
+    configDir: configDir,
+    dataDir: dataDir,
+    cacheDir: cacheDir,
+    stateDir: stateDir,
+    logDir: logDir,
+    runtimeDir: runtimeDir,
+    configDirs: configDirs,
+    dataDirs: dataDirs,
+};
+
+const project = {
+    dirs: projectDirs,
+    userDirs: projectUserDirs,
+};
+
 // Backward compatibility: require("os-user-dirs")() returns Downloads path
 module.exports = downloads;
 module.exports.getPath = getPath;
@@ -446,3 +479,6 @@ module.exports.ensureDirSync = ensureDirSync;
 module.exports.trashDir = trashDir;
 module.exports.ensureDir = ensureDir;
 module.exports.getAllDirs = getAllDirs;
+module.exports.user = user;
+module.exports.base = base;
+module.exports.project = project;

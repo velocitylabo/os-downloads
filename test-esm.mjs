@@ -31,6 +31,9 @@ import osUserDirs, {
     ensureDirSync,
     ensureDir,
     getAllDirs,
+    user,
+    base,
+    project,
 } from './index.mjs';
 
 const home = os.homedir();
@@ -293,6 +296,48 @@ test('getXDGUserDir is a function', () => {
 });
 test('getXDGDownloadDir is not exported', () => {
     assert.equal(osUserDirs.getXDGDownloadDir, undefined);
+});
+
+// Namespace exports
+console.log('\nnamespace exports:');
+test('user namespace is an object', () => {
+    assert.equal(typeof user, 'object');
+});
+test('user.downloads() matches downloads()', () => {
+    assert.equal(user.downloads(), downloads());
+});
+test('user.desktop() matches desktop()', () => {
+    assert.equal(user.desktop(), desktop());
+});
+test('user.homeDir() matches homeDir()', () => {
+    assert.equal(user.homeDir(), homeDir());
+});
+test('user.fontsDir() matches fontsDir()', () => {
+    assert.equal(user.fontsDir(), fontsDir());
+});
+test('user.trashDir() matches trashDir()', () => {
+    assert.equal(user.trashDir(), trashDir());
+});
+test('base namespace is an object', () => {
+    assert.equal(typeof base, 'object');
+});
+test('base.configDir() matches configDir()', () => {
+    assert.equal(base.configDir(), configDir());
+});
+test('base.dataDir() matches dataDir()', () => {
+    assert.equal(base.dataDir(), dataDir());
+});
+test('base.configDirs() matches configDirs()', () => {
+    assert.deepEqual(base.configDirs(), configDirs());
+});
+test('project namespace is an object', () => {
+    assert.equal(typeof project, 'object');
+});
+test('project.dirs("test-app") matches projectDirs("test-app")', () => {
+    assert.deepEqual(project.dirs('test-app'), projectDirs('test-app'));
+});
+test('project.userDirs("test-app") matches projectUserDirs("test-app")', () => {
+    assert.deepEqual(project.userDirs('test-app'), projectUserDirs('test-app'));
 });
 
 console.log(`\n${passed} tests passed`);

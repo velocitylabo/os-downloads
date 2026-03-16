@@ -247,6 +247,39 @@ const dirs = projectUserDirs("my-app");
 dirs.downloads //=> '/home/user/Downloads/my-app'
 ```
 
+### Namespace Exports
+
+For better organization, functions are also available via namespace objects:
+
+```javascript
+import { user, base, project } from "os-user-dirs";
+
+// User directories
+user.downloads()   //=> '/home/user/Downloads'
+user.desktop()     //=> '/home/user/Desktop'
+user.homeDir()     //=> '/home/user'
+
+// XDG base directories
+base.configDir()   //=> '/home/user/.config'
+base.dataDir()     //=> '/home/user/.local/share'
+base.configDirs()  //=> ['/etc/xdg']
+
+// Project directories
+const dirs = project.dirs("my-app");
+dirs.config  //=> '/home/user/.config/my-app'
+
+const userDirs = project.userDirs("my-app");
+userDirs.downloads  //=> '/home/user/Downloads/my-app'
+```
+
+| Namespace | Functions |
+|---|---|
+| `user` | `desktop`, `downloads`, `documents`, `music`, `pictures`, `videos`, `templates`, `publicshare`, `homeDir`, `binDir`, `fontsDir`, `trashDir`, `applicationsDir` |
+| `base` | `configDir`, `dataDir`, `cacheDir`, `stateDir`, `logDir`, `runtimeDir`, `configDirs`, `dataDirs` |
+| `project` | `dirs` (= `projectDirs`), `userDirs` (= `projectUserDirs`) |
+
+All flat exports remain available for backward compatibility.
+
 ### Utilities
 
 | Function | Description |

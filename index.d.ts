@@ -467,6 +467,72 @@ interface GetAllDirsResult {
  */
 export function getAllDirs(): GetAllDirsResult;
 
+/**
+ * Namespace grouping user directory functions.
+ * Provides organized access to user-specific directory functions.
+ * @example
+ * ```ts
+ * import { user } from 'os-user-dirs';
+ * user.downloads();   // '/home/user/Downloads'
+ * user.desktop();     // '/home/user/Desktop'
+ * user.homeDir();     // '/home/user'
+ * ```
+ */
+export const user: {
+    desktop: typeof desktop;
+    downloads: typeof downloads;
+    documents: typeof documents;
+    music: typeof music;
+    pictures: typeof pictures;
+    videos: typeof videos;
+    templates: typeof templates;
+    publicshare: typeof publicshare;
+    homeDir: typeof homeDir;
+    binDir: typeof binDir;
+    fontsDir: typeof fontsDir;
+    trashDir: typeof trashDir;
+    applicationsDir: typeof applicationsDir;
+};
+
+/**
+ * Namespace grouping XDG base directory functions.
+ * Provides organized access to base directory and search path functions.
+ * @example
+ * ```ts
+ * import { base } from 'os-user-dirs';
+ * base.configDir();   // '/home/user/.config'
+ * base.dataDir();     // '/home/user/.local/share'
+ * base.configDirs();  // ['/etc/xdg']
+ * ```
+ */
+export const base: {
+    configDir: typeof configDir;
+    dataDir: typeof dataDir;
+    cacheDir: typeof cacheDir;
+    stateDir: typeof stateDir;
+    logDir: typeof logDir;
+    runtimeDir: typeof runtimeDir;
+    configDirs: typeof configDirs;
+    dataDirs: typeof dataDirs;
+};
+
+/**
+ * Namespace grouping project-scoped directory functions.
+ * Provides organized access to application-scoped directory functions.
+ * @example
+ * ```ts
+ * import { project } from 'os-user-dirs';
+ * const dirs = project.dirs('my-app');
+ * dirs.config;  // '/home/user/.config/my-app'
+ * const userDirs = project.userDirs('my-app');
+ * userDirs.downloads;  // '/home/user/Downloads/my-app'
+ * ```
+ */
+export const project: {
+    dirs: typeof projectDirs;
+    userDirs: typeof projectUserDirs;
+};
+
 declare const osUserDirs: typeof downloads & {
     downloads: typeof downloads;
     desktop: typeof desktop;
@@ -497,6 +563,9 @@ declare const osUserDirs: typeof downloads & {
     ensureDirSync: typeof ensureDirSync;
     ensureDir: typeof ensureDir;
     getAllDirs: typeof getAllDirs;
+    user: typeof user;
+    base: typeof base;
+    project: typeof project;
 };
 
 export default osUserDirs;

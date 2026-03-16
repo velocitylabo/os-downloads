@@ -30,3 +30,6 @@ export const trashDir = osUserDirs.trashDir;
 export const ensureDirSync = osUserDirs.ensureDirSync;
 export const ensureDir = osUserDirs.ensureDir;
 export const getAllDirs = osUserDirs.getAllDirs;
+export const user = osUserDirs.user;
+export const base = osUserDirs.base;
+export const project = osUserDirs.project;

@@ -32,6 +32,9 @@ const {
     ensureDirSync,
     ensureDir,
     getAllDirs,
+    user,
+    base,
+    project,
 } = require("./");
 
 describe("os-user-dirs", () => {
@@ -998,6 +1001,94 @@ describe("os-user-dirs", () => {
         it("homeDir matches os.homedir()", () => {
             const dirs = getAllDirs();
             assert.strictEqual(dirs.homeDir, os.homedir());
+        });
+    });
+
+    describe("namespace exports", () => {
+        describe("user namespace", () => {
+            it("contains all user directory functions", () => {
+                assert.strictEqual(typeof user, "object");
+                assert.strictEqual(typeof user.desktop, "function");
+                assert.strictEqual(typeof user.downloads, "function");
+                assert.strictEqual(typeof user.documents, "function");
+                assert.strictEqual(typeof user.music, "function");
+                assert.strictEqual(typeof user.pictures, "function");
+                assert.strictEqual(typeof user.videos, "function");
+                assert.strictEqual(typeof user.templates, "function");
+                assert.strictEqual(typeof user.publicshare, "function");
+                assert.strictEqual(typeof user.homeDir, "function");
+                assert.strictEqual(typeof user.binDir, "function");
+                assert.strictEqual(typeof user.fontsDir, "function");
+                assert.strictEqual(typeof user.trashDir, "function");
+                assert.strictEqual(typeof user.applicationsDir, "function");
+            });
+
+            it("returns same values as flat exports", () => {
+                assert.strictEqual(user.desktop(), desktop());
+                assert.strictEqual(user.downloads(), downloads());
+                assert.strictEqual(user.documents(), documents());
+                assert.strictEqual(user.music(), music());
+                assert.strictEqual(user.pictures(), pictures());
+                assert.strictEqual(user.videos(), videos());
+                assert.strictEqual(user.templates(), templates());
+                assert.strictEqual(user.publicshare(), publicshare());
+                assert.strictEqual(user.homeDir(), homeDir());
+                assert.strictEqual(user.binDir(), binDir());
+                assert.strictEqual(user.fontsDir(), fontsDir());
+                assert.strictEqual(user.trashDir(), trashDir());
+                assert.strictEqual(user.applicationsDir(), applicationsDir());
+            });
+        });
+
+        describe("base namespace", () => {
+            it("contains all base directory functions", () => {
+                assert.strictEqual(typeof base, "object");
+                assert.strictEqual(typeof base.configDir, "function");
+                assert.strictEqual(typeof base.dataDir, "function");
+                assert.strictEqual(typeof base.cacheDir, "function");
+                assert.strictEqual(typeof base.stateDir, "function");
+                assert.strictEqual(typeof base.logDir, "function");
+                assert.strictEqual(typeof base.runtimeDir, "function");
+                assert.strictEqual(typeof base.configDirs, "function");
+                assert.strictEqual(typeof base.dataDirs, "function");
+            });
+
+            it("returns same values as flat exports", () => {
+                assert.strictEqual(base.configDir(), configDir());
+                assert.strictEqual(base.dataDir(), dataDir());
+                assert.strictEqual(base.cacheDir(), cacheDir());
+                assert.strictEqual(base.stateDir(), stateDir());
+                assert.strictEqual(base.logDir(), logDir());
+                assert.strictEqual(base.runtimeDir(), runtimeDir());
+                assert.deepStrictEqual(base.configDirs(), configDirs());
+                assert.deepStrictEqual(base.dataDirs(), dataDirs());
+            });
+        });
+
+        describe("project namespace", () => {
+            it("contains dirs and userDirs functions", () => {
+                assert.strictEqual(typeof project, "object");
+                assert.strictEqual(typeof project.dirs, "function");
+                assert.strictEqual(typeof project.userDirs, "function");
+            });
+
+            it("project.dirs returns same values as projectDirs", () => {
+                const a = project.dirs("test-app");
+                const b = projectDirs("test-app");
+                assert.deepStrictEqual(a, b);
+            });
+
+            it("project.dirs with options returns same values as projectDirs", () => {
+                const a = project.dirs("test-app", { vendor: "My Org", suffix: "-beta" });
+                const b = projectDirs("test-app", { vendor: "My Org", suffix: "-beta" });
+                assert.deepStrictEqual(a, b);
+            });
+
+            it("project.userDirs returns same values as projectUserDirs", () => {
+                const a = project.userDirs("test-app");
+                const b = projectUserDirs("test-app");
+                assert.deepStrictEqual(a, b);
+            });
         });
     });
 
