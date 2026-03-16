@@ -307,6 +307,14 @@ downloads();                              // recommended: cross-platform Downloa
 getXDGUserDir("XDG_DOWNLOAD_DIR");        // direct replacement if you need XDG config parsing
 ```
 
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, coding conventions, and pull request guidelines.
+
+## Security
+
+See [SECURITY.md](SECURITY.md) for the security policy and vulnerability reporting instructions.
+
 ## License
 
 MIT
