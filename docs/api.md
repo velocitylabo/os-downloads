@@ -4,6 +4,7 @@ Full API reference for **os-user-dirs**. For quick start examples, see the [READ
 
 ## Table of Contents
 
+- [Default Export](#default-export)
 - [User Directory Functions](#user-directory-functions)
 - [XDG Base Directory Functions](#xdg-base-directory-functions)
 - [XDG Search Path Functions](#xdg-search-path-functions)
@@ -11,6 +12,37 @@ Full API reference for **os-user-dirs**. For quick start examples, see the [READ
 - [Project Directory Functions](#project-directory-functions)
 - [Utility Functions](#utility-functions)
 - [Functions That May Return `null`](#functions-that-may-return-null)
+- [Edge Cases](#edge-cases)
+
+---
+
+## Default Export
+
+The default export is the `downloads` function, providing backward compatibility with the original `os-downloads` package.
+
+**Signature:**
+
+```typescript
+declare const osUserDirs: typeof downloads & { /* all named exports */ };
+export default osUserDirs;
+```
+
+**Usage:**
+
+```javascript
+// CJS — calling the default export returns the Downloads path
+const osUserDirs = require("os-user-dirs");
+osUserDirs(); //=> '/home/user/Downloads'
+
+// All named exports are also available on the default export
+osUserDirs.desktop();   //=> '/home/user/Desktop'
+osUserDirs.configDir(); //=> '/home/user/.config'
+
+// ESM — named imports recommended
+import { downloads, configDir } from "os-user-dirs";
+```
+
+> **Note:** For new projects, prefer named imports (`import { downloads } from "os-user-dirs"`) for clarity.
 
 ---
 
@@ -866,3 +898,59 @@ The following functions may return `null` under certain conditions. Always check
 | `getBasePath("runtime")` | Same as `runtimeDir()` |
 | `projectDirs(name).runtime` | Same as `runtimeDir()` |
 | `getXDGUserDir(key)` | Key not found in config file, or config file unreadable |
+
+---
+
+## Edge Cases
+
+### Unknown Platforms
+
+On platforms other than Linux, macOS, and Windows (e.g. FreeBSD, Android), functions fall back to XDG-style Linux defaults:
+
+| Function category | Behavior |
+|---|---|
+| User directories (`downloads()`, etc.) | `~/Downloads`, `~/Desktop`, etc. |
+| Base directories (`configDir()`, etc.) | `~/.config`, `~/.local/share`, etc. |
+| Search path directories (`configDirs()`, etc.) | `["/etc/xdg"]`, `["/usr/local/share", "/usr/share"]` |
+| `fontsDir()` | `~/.local/share/fonts` |
+| `trashDir()` | `~/.local/share/Trash` |
+| `applicationsDir()` | `~/.local/share/applications` |
+| `binDir()` | `~/.local/bin` |
+| `runtimeDir()` | `null` (no default) |
+
+### Error Conditions
+
+The following functions throw an `Error` for invalid input:
+
+| Function | Throws when |
+|---|---|
+| `getPath(name)` | `name` is not a valid `DirName` |
+| `getBasePath(name)` | `name` is not a valid `BaseDirName` |
+| `projectDirs(name)` | `name` is empty, falsy, or not a string |
+| `projectUserDirs(name)` | `name` is empty, falsy, or not a string |
+| `ensureDirSync(dirPath)` | `dirPath` is empty, falsy, or not a string |
+| `ensureDir(dirPath)` | `dirPath` is empty, falsy, or not a string (rejects) |
+
+### XDG User Directory Override (Linux)
+
+On Linux, user directory functions (`desktop()`, `downloads()`, etc.) check `~/.config/user-dirs.dirs` before falling back to defaults. This file is typically managed by `xdg-user-dirs-update` and may contain custom paths:
+
+```
+XDG_DOWNLOAD_DIR="$HOME/my-downloads"
+XDG_DESKTOP_DIR="$HOME/my-desktop"
+```
+
+If the file is missing or a key is not found, the function returns the default path (e.g. `~/Downloads`). This override does **not** apply on macOS or Windows.
+
+### `logDir()` and `stateDir()` Shared Path on Linux
+
+On Linux, both `logDir()` and `stateDir()` use `$XDG_STATE_HOME` (default `~/.local/state`). Applications typically use subdirectories to separate log and state data:
+
+```javascript
+import { projectDirs } from "os-user-dirs";
+const dirs = projectDirs("my-app");
+dirs.state //=> '/home/user/.local/state/my-app'
+dirs.log   //=> '/home/user/.local/state/my-app'
+```
+
+On macOS, `logDir()` returns `~/Library/Logs` (separate from `stateDir()`).
